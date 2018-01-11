@@ -42,8 +42,9 @@ class phone_common(orm.AbstractModel):
                 'view_mode': 'form,tree',
                 'views': [[False, 'form']],  # Beurk, but needed
                 'target': 'new',
+                'flags': {'form': {'action_buttons': True}},
                 'res_id': record_res[1],
-                }
+            }
         else:
             action = {
                 'name': _('Number Not Found'),
@@ -90,8 +91,8 @@ class res_users(orm.Model):
 
     _columns = {
         'context_incall_popup': fields.boolean('Pop-up on Incoming Calls'),
-        }
+    }
 
     _defaults = {
         'context_incall_popup': True,
-        }
+    }
