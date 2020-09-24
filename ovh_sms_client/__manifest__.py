@@ -4,13 +4,13 @@
 
 {
     'name': 'OVH SMS Client',
-    'version': '10.0.1.0.1',
+    'version': '11.0.1.0.1',
     'license': 'AGPL-3',
-    'depends': ['mail',
-                'base_sms_client',
-                'base_suspend_security',
-                'keychain',
-                ],
+    'depends': [
+        'mail',
+        'base_sms_client',
+        'keychain',
+    ],
     'author': 'Julius Network Solutions,SYLEAM,'
               'Odoo Community Association (OCA),Akretion',
     'images': [
@@ -23,5 +23,5 @@
     'website': 'http://julius.fr',
     'category': 'Tools',
     'data': ['data/keychain.xml'],
-    'installable': False,
+    'installable': True,
 }

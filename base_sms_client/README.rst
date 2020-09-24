@@ -46,6 +46,7 @@ Contributors
 
 * Valentin Chemiere <valentin.chemiere@akretion.com>
 * Yvan Party <yvan@julius.fr>
+* David Gómez <david.gomez@factorlibre.com>
 
 Maintainer
 ----------

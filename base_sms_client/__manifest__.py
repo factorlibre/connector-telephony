@@ -7,12 +7,14 @@
 
 {
     "name": "Base Sms Client",
-    "version": "10.0.1.0.0",
+    "version": "11.0.1.0.0",
     'license': 'AGPL-3',
-    "depends": ['mail',
-                'base_phone',
-                'keychain',
-                ],
+    "depends": [
+        'mail',
+        'base_phone',
+        'keychain',
+        'bus',
+    ],
     'author': 'Julius Network Solutions,SYLEAM,'
               'Odoo Community Association (OCA),Akretion',
     'images': [
@@ -33,7 +35,11 @@
         "views/server_action_view.xml",
         "data/sms_gateway_data.xml",
         "wizard/mass_sms_view.xml",
-        "views/smstemplate_view.xml"
+        "views/smstemplate_view.xml",
+        "static/src/xml/templates.xml",
     ],
-    "installable": False,
+    'qweb': [
+        'static/src/xml/inherit_chatter.xml',
+    ],
+    "installable": True,
 }

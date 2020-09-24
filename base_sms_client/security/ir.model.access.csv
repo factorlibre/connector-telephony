@@ -2,3 +2,5 @@
 "access_sms_gateway_global","sms.gateway Global","model_sms_gateway",,1,0,0,0
 "access_sms_sms_global","sms.sms Global","model_sms_sms",,1,0,0,0
 "access_sms_sms_user","sms.sms User","model_sms_sms","group_sms_user",1,1,1,1
+"access_sms_template_global","sms.template Global","model_sms_template",,1,0,0,0
+"access_sms_template_user","sms.template User","model_sms_template","group_sms_user",1,1,1,1

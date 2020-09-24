@@ -17,6 +17,11 @@ class SmsSms(models.Model):
     _rec_name = 'mobile'
     _inherit = 'sms.abstract'
 
+    @api.model
+    def _reference_models(self):
+        models = self.env['ir.model'].search([])
+        return [(model.model, model.name) for model in models]
+
     message = fields.Text(
         size=256,
         required=True,
@@ -49,6 +54,22 @@ class SmsSms(models.Model):
         size=256,
         readonly=True,
         states={'draft': [('readonly', False)]})
+    model = fields.Char(
+        'Related Document Model', readonly=True)
+    res_id = fields.Integer('Resource ID', readonly=True)
+    record = fields.Reference(
+        compute='_compute_record',
+        selection='_reference_models',
+        help="The record to review.",
+        readonly=True,
+    )
+
+    def _compute_record(self):
+        for sms in self:
+            if sms.model and sms.res_id:
+                sms.record = sms.model + ',' + str(sms.res_id)
+            else:
+                sms.record = False
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
@@ -114,6 +135,7 @@ class SmsSms(models.Model):
                     with sms._cr.savepoint():
                         getattr(sms, "_send_%s" % sms.gateway_id.method)()
                         sms.write({'state': 'sent', 'error': ''})
+                        sms.post_message()
                 except Exception as e:
                     _logger.error('Failed to send sms %s', e)
                     sms.write({'error': e, 'state': 'error'})
@@ -127,3 +149,13 @@ class SmsSms(models.Model):
     @api.multi
     def retry(self):
         self.write({'state': 'draft'})
+
+    def post_message(self):
+        if not self.record or not hasattr(self.record, 'message_post'):
+            return
+        sent_to = self.mobile
+        if self.partner_id:
+            sent_to = '%s (%s)' % (self.partner_id.name, self.mobile)
+        message = _("SMS Message (%s) sent to %s" % (self.message, sent_to))
+        self.record.message_post(body=message)
+        self.env['bus.bus'].sendone('sms.sms', [])
